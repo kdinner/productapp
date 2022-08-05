@@ -1,0 +1,492 @@
+{% extends 'base.html/' %} {% block content %} {% load static %}
+<br/>
+<H4>Product Details </H4>
+
+<style>
+    table.dataTable thead tr {
+        background-color: black;
+        color: white;
+    }
+    
+    tfoot {
+        display: table-header-group;
+    }
+    
+    table {
+        margin: 0 auto;
+        width: 100%;
+        clear: both;
+        border-collapse: collapse;
+        table-layout: fixed;
+        word-wrap: break-word;
+    }
+    
+    td.nowrap {
+        white-space: nowrap;
+    }
+    
+    input.dataTableCheckbox {
+        width: 15px;
+        height: 15px;
+        color: #26ca28;
+        background-color: #006dcc;
+    }
+    
+    input.dataTableCheckbox:checked::after {
+        background: #006dcc;
+        color: #FFFFFF;
+        content: '\2713';
+        position: relative;
+    }
+    
+    .modal-dialog {
+        width: 1200px;
+        height: 500px !important;
+    }
+    
+    .modal-header {
+        background-color: #337AB7;
+        padding: 16px 16px;
+        color: #FFF;
+        border-bottom: 2px dashed #337AB7;
+    }
+    
+    form label {
+        font-weight: bold;
+    }
+</style>
+
+
+<table class="table table-bordered table-responsive table-hover table-striped " id="tblProduct" width="2500px">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Product Id </th>
+            <th>sku</th>
+            <th>Product Name </th>
+            <th>Chipset Vendor </th>
+            <th>Class</th>
+            <th>Bands</th>
+            <th>odm</th>
+            <th>cpu</th>
+            <th>dfs</th>
+            <th>usb</th>
+            <th>Power Current</th>
+            <th>Radio1 Freq</th>
+            <th>Radio1 Protocol</th>
+            <th>Radio1 Mimo</th>
+            <th>Radio1 bw</th>
+            <th>Radio2 Freq</th>
+            <th>Radio2 Protocol</th>
+            <th>Radio2 Mimo</th>
+            <th>Radio2 bw</th>
+            <th>Radio3 Freq</th>
+            <th>Radio3 Protocol</th>
+            <th>Radio3 Mimo</th>
+            <th>Radio3 bw</th>
+            <th>Compare1 bw</th>
+            <th>Compare2</th>
+            <th>Compare3</th>
+            <th>Compare4</th>
+            <th>Product Description </th>
+        </tr>
+    </thead>
+
+    <tfoot id="tblFoot">
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </tfoot>
+    <tbody></tbody>
+</table>
+<div>
+    <button id="btnResetProduct" class="btn btn-primary" onclick="ResetProductClick(); return false;">Reset Product</button>
+    <button id="btnCompareProduct" class="btn btn-primary" onclick="CompareProductClick(); return false;">Compare Product</button>
+    <button id="btnAddProduct" class="btn btn-primary" onclick="ShowAddProductDialog(); return false;">Add Product</button>
+    <button id="btnDeleteProduct" class="btn btn-primary" onclick="DeleteProductClick(); return false;">Delete Product</button>
+</div>
+
+
+
+<!-- Modal -->
+<div id="divAddProduct" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg ">
+        <div class="modal-content">
+            <div class="modal-header panel-heading">
+                <h4 class="modal-title" id="myModalLabel">Add New Product</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="container">
+                <p></p>
+                <div class="form-group ">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="name">Sku</label>
+                            <input type="text" class="form-control" id="idSku" name="Sku" placeholder="Sku">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="Vendor">Chipset Vendor</label>
+                            <input type="text" class="form-control" id="idVendor" name="Vendor" placeholder="Vendor">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="Product">Product Name</label>
+                            <input type="text" class="form-control" id="idProduct" name="Product" placeholder="Product Name">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="name">Product Description</label>
+                            <input type="text" class="form-control" id="idDescription" name="Description" placeholder="Description">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="Band">Band</label>
+                            <input type="text" class="form-control" id="idBand" name="Band" placeholder="Band">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="Class">Class</label>
+                            <input type="text" class="form-control" id="idClass" name="Class" placeholder="Class">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button type="button" class="btn" onclick="$('#divAddProduct').modal('hide');">Cancel</button>
+                            <button type="button" class="btn btn-primary" onclick="AddProductClick(); return false;">Add</button>
+                        </div>
+                    </div>
+                </div>
+                <p></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var checkBoxMap = {}
+    $(document).ready(function() {
+        loadProduct()
+    });
+
+    function loadProduct() {
+        url = "{% url 'getProduct' %}"
+        $.ajax({
+            type: "GET",
+            url: url,
+            dataType: 'json',
+            data: {
+                productIds: "all"
+            },
+            success: function(response) {
+                loadTable(response.data);
+            }
+        })
+    }
+
+    function loadTable(jsonData) {
+        table = $("#tblProduct").removeAttr('width').DataTable({
+            fixedColumns: true,
+            autoWidth: false,
+            destroy: true,
+            searching: true,
+            data: jsonData,
+            order: [
+                [3, 'asc']
+            ],
+            columnDefs: [{
+                targets: [0],
+                width: '30px',
+                visible: true,
+                searchable: false,
+                render: function(data, type, record, meta) {
+                    var id = "idCompare" + record.id;
+                    checkBoxMap[id] = 0
+                    return '<input type="checkbox" class="dataTableCheckbox"  onclick="checkBoxClick(id)" id=' + id + ' value="' + $('<div/>').text(data).html() + '">';
+                }
+            }, {
+                targets: [1],
+                width: "1%",
+                visible: false,
+                searchable: true,
+                orderable: true
+            }, {
+                targets: [2],
+                width: "100px",
+                visible: true,
+                searchable: true,
+                orderable: true,
+                class: "nowrap"
+            }, {
+                targets: [3],
+                width: "300px",
+                visible: true,
+                searchable: true,
+                orderable: true,
+                class: "nowrap"
+            }, {
+                targets: [4],
+                width: "300px",
+                visible: true,
+                searchable: true,
+                orderable: true,
+                class: "nowrap"
+            }, {
+                targets: [5],
+                width: "75px",
+                visible: true,
+                searchable: true,
+                orderable: true,
+            }, {
+                targets: [6, 7, 10],
+                width: "50px",
+                visible: true,
+                searchable: true,
+                orderable: true,
+            }, {
+                targets: [8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 27],
+                width: "25px",
+                visible: true,
+                searchable: true,
+                orderable: true,
+            }, {
+                targets: [28],
+                width: "300px",
+                visible: true,
+                searchable: true,
+                orderable: true,
+                class: "nowrap"
+            }, ],
+            columns: [{
+                data: "1"
+            }, {
+                data: "id"
+            }, {
+                data: "sku"
+            }, {
+                data: "project_name"
+            }, {
+                data: "chipset_vendor"
+            }, {
+                data: "class"
+            }, {
+                data: "bands"
+            }, {
+                data: "odm"
+            }, {
+                data: "cpu"
+            }, {
+                data: "dfs"
+            }, {
+                data: "usb"
+            }, {
+                data: "power_current"
+            }, {
+                data: "radio1_freq"
+            }, {
+                data: "radio1_protocol"
+            }, {
+                data: "radio1_mimo"
+            }, {
+                data: "radio1_bw"
+            }, {
+                data: "radio2_freq"
+            }, {
+                data: "radio2_protocol"
+            }, {
+                data: "radio2_mimo"
+            }, {
+                data: "radio2_bw"
+            }, {
+                data: "radio3_freq"
+            }, {
+                data: "radio3_protocol"
+            }, {
+                data: "radio3_mimo"
+            }, {
+                data: "radio3_bw"
+            }, {
+                data: "compare1"
+            }, {
+                data: "compare2"
+            }, {
+                data: "compare3"
+            }, {
+                data: "compare4"
+            }, {
+                data: "description"
+            }, ]
+        });
+
+
+        var index = 0;
+        $('#tblProduct tfoot th').each(function() {
+            var title = $('#tblProduct thead th').eq($(this).index()).text();
+            var id = "inputSearch" + index.toString();
+            index++;
+            if (title != "") {
+                var htmlStr = '<div class="input-group"> ';
+                htmlStr = htmlStr + ' <input type="text" class="form-control" placeholder="Search" id=' + id + ' />';
+                htmlStr = htmlStr + '<span class="input-group-addon"><i class="glyphicon glyphicon-search" id="tableSearch" ';
+                htmlStr = htmlStr + 'onmouseover = ""  ></i ></span > </div > ';
+                $(this).html(htmlStr);
+            }
+
+        });
+
+        table.columns().every(function() {
+            var column = this;
+            $('input', this.footer()).on('keyup change', function() {
+                column
+                    .search(this.value)
+                    .draw();
+            });
+        });
+        $('.dataTables_filter input').hide();
+        $('.dataTables_filter label').hide()
+    };
+
+
+
+    function ResetProductClick() {
+        loadProduct()
+        return false;
+    }
+
+    function checkBoxClick(id) {
+        if (checkBoxMap[id] == 0) {
+            checkBoxMap[id] = 1;
+        } else {
+            checkBoxMap[id] = 0;
+        }
+    }
+
+    function CompareProductClick() {
+        var idList = "";
+        for (const [key, value] of Object.entries(checkBoxMap)) {
+            if (value == 1) {
+                array = key.split("idCompare");
+                if (idList.length > 0) idList = idList + " , ";
+                idList = idList + array[1];
+            }
+            //console.log(`IDLIST = ${idList}`);
+        }
+
+        url = "{% url 'getSelectedProduct' %}"
+        $.ajax({
+            type: "GET",
+            url: url,
+            dataType: 'json',
+            data: {
+                productIds: idList
+            },
+            success: function(response) {
+                loadTable(response.data);
+            }
+        })
+
+        return false;
+    }
+
+    function ShowAddProductDialog() {
+        $('#divAddProduct').modal('show');
+        $('#idSku').val("");
+        $('#idVendor').val("");
+        $('#idProduct').val("");
+        $('#idDescription').val("");
+        $('#idBand').val("");
+        $('#idClass').val("");
+
+    }
+
+    function AddProductClick() {
+        url = "{% url 'addProduct' %}"
+        $.ajax({
+            type: "GET",
+            url: url,
+            dataType: 'json',
+            data: {
+                Sku: $('#idSku').val(),
+                Vendor: $('#idVendor').val(),
+                ProductName: $('#idProduct').val(),
+                Description: $('#idDescription').val(),
+                Band: $('#idBand').val(),
+                Class: $('#idClass').val()
+            },
+            success: function(response) {
+                if (response.data == "Success") {
+                    toastr.success("Product Successfully Added");
+                    $('#divAddProduct').modal('hide');
+                    loadProduct()
+                } else {
+                    toastr.error(response.data)
+                }
+            }
+        })
+
+        return false;
+    }
+
+    function DeleteProductClick() {
+        var id = "";
+        for (const [key, value] of Object.entries(checkBoxMap)) {
+            if (value == 1) {
+                array = key.split("idCompare");
+                id = array[1];
+                break;
+            }
+        }
+        if (id.length === 0) return false;
+        url = "{% url 'deleteProduct' %}"
+        $.ajax({
+            type: "GET",
+            url: url,
+            dataType: 'json',
+            data: {
+                productId: id
+            },
+            success: function(response) {
+                if (response.data == 1) {
+                    ResetProductClick();
+                    toastr.success("Product Successfully deleted");
+                } else {
+                    toastr.error("Failed to delete Product")
+                }
+            }
+        })
+
+        return false;
+    }
+</script>
+
+
+{% endblock %}

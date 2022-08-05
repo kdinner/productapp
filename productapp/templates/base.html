@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatable" content="ie=edge">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'css/all.css' %}">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <!-- Custom -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Lightbox -->
+    <!-- data table -->
+
+    <!-- css -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/datatables.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/lightbox.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/toastr.min.css' %}">
+
+    <!-- JQuery -->
+    <script src="{% static 'js/jquery-3.6.0.min.js' %}  "></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}  "></script>
+    <script src="{% static 'js/lightbox.min.js' %}  "></script>
+    <script src="{% static 'js/bootstrap-select.min.js' %}  "></script>
+    <script src="{% static 'js/datatables.min.js' %}  "></script>
+    <script src="{% static 'js/toastr.min.js' %}  "></script>
+
+    <title>My Web Site</title>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'images/LinksysW.png' %}" class="logo" alt="">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <ul class="navbar-nav">
+                    <li class="nav-item active mr-3">
+                        <a class="nav-link" href="{% url 'product' %}">Product</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {%block content%} {%endblock%}
+
+
+    <!-- <script src="{% static 'js/main.js' %}  "></script> -->
+</body>
+
+</html>
